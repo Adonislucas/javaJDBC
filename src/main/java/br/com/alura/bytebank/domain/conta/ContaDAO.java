@@ -32,15 +32,15 @@ public class ContaDAO {
        try {
 
 
-           PreparedStatement preparedStatement = conn.prepareStatement(sql);
-           preparedStatement.setInt(1, conta.getNumero());
-           preparedStatement.setBigDecimal(2, BigDecimal.ZERO);
-           preparedStatement.setString(3, dadosDaConta.dadosCliente().nome());
-           preparedStatement.setString(4, dadosDaConta.dadosCliente().cpf());
-           preparedStatement.setString(5, dadosDaConta.dadosCliente().email());
+           PreparedStatement ps = conn.prepareStatement(sql);
+           ps.setInt(1, conta.getNumero());
+           ps.setBigDecimal(2, BigDecimal.ZERO);
+           ps.setString(3, dadosDaConta.dadosCliente().nome());
+           ps.setString(4, dadosDaConta.dadosCliente().cpf());
+           ps.setString(5, dadosDaConta.dadosCliente().email());
 
-           preparedStatement.execute();
-           preparedStatement.close();
+           ps.execute();
+           ps.close();
            conn.close();
        }catch (SQLException e){
            throw new RuntimeException(e);
@@ -54,14 +54,14 @@ public class ContaDAO {
 
        try {
            PreparedStatement ps = conn.prepareStatement(sql);
-           ResultSet resultSet =  ps.executeQuery();
+           ResultSet rs =  ps.executeQuery();
 
-           while(resultSet.next()){
-               Integer numero = resultSet.getInt(1);
-               BigDecimal saldo= resultSet.getBigDecimal(2);
-               String nome = resultSet.getString(3);
-               String cpf = resultSet.getString(4);
-               String email = resultSet.getString(5);
+           while(rs.next()){
+               Integer numero = rs.getInt(1);
+               BigDecimal saldo= rs.getBigDecimal(2);
+               String nome = rs.getString(3);
+               String cpf = rs.getString(4);
+               String email = rs.getString(5);
 
               DadosCadastroCliente dadosCadastroCliente= new DadosCadastroCliente(nome, cpf, email);
               Cliente cliente = new Cliente(dadosCadastroCliente);
@@ -72,6 +72,7 @@ public class ContaDAO {
            }
 
            ps.close();
+           rs.close();
            conn.close();
 
        }catch(SQLException e){
