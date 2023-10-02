@@ -20,10 +20,10 @@ public class ContaService {
     }
 
 
-    private Set<Conta> contas = new HashSet<>();
 
     public Set<Conta> listarContasAbertas() {
         Connection conn = connection.recuperarConexao();
+
 
         return new ContaDAO(conn).listar();
     }
@@ -56,6 +56,10 @@ public class ContaService {
             throw new RegraDeNegocioException("Saldo insuficiente!");
         }
 
+        if(!conta.getEstaAtiva()){
+            throw new RegraDeNegocioException("Conta não esta ativa");
+        }
+
         BigDecimal novoValor= conta.getSaldo().subtract(valor);
         Connection conn = connection.recuperarConexao();
         alterar(conta, novoValor);
@@ -68,6 +72,9 @@ public class ContaService {
         var conta = buscarContaPorNumero(numeroDaConta);
         if (valor.compareTo(BigDecimal.ZERO) <= 0) {
             throw new RegraDeNegocioException("Valor do deposito deve ser superior a zero!");
+        }
+        if(!conta.getEstaAtiva()){
+            throw new RegraDeNegocioException("Conta não esta ativa");
         }
 
         Connection conn = connection.recuperarConexao();
@@ -94,13 +101,20 @@ public class ContaService {
         if (conta.possuiSaldo()) {
             throw new RegraDeNegocioException("Conta não pode ser encerrada pois ainda possui saldo!");
         }
-
         Connection conn= connection.recuperarConexao();
-
-
         new ContaDAO(conn).remove(numeroDaConta);
 
 
+
+    }
+
+    public void encerrarLogico(Integer numeroDaConta){
+        var conta = buscarContaPorNumero(numeroDaConta);
+        if (conta.possuiSaldo()) {
+            throw new RegraDeNegocioException("Conta não pode ser encerrada pois ainda possui saldo!");
+        }
+        Connection conn= connection.recuperarConexao();
+        new ContaDAO(conn).alterarLogico(numeroDaConta);
 
     }
 
