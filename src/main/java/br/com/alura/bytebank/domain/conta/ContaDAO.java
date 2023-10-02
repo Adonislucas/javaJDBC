@@ -118,7 +118,7 @@ public class ContaDAO {
 
 
 
-        public void fazerDeposito(Integer numeroDaConta, BigDecimal valor){
+        public void alterar(Integer numeroDaConta, BigDecimal valor){
 
         String sql = "UPDATE clientes.conta SET saldo = ? WHERE numero= ?";
         try{
@@ -138,6 +138,7 @@ public class ContaDAO {
             }
 
         }
+
 
 
 
