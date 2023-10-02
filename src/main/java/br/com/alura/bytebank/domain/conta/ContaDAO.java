@@ -24,7 +24,7 @@ public class ContaDAO {
     public void salvar(DadosAberturaConta dadosDaConta) {
 
         var cliente = new Cliente(dadosDaConta.dadosCliente());
-        var conta = new Conta(dadosDaConta.numero(), cliente);
+        var conta = new Conta(dadosDaConta.numero(), cliente, BigDecimal.ZERO);
 
         String sql = "INSERT INTO clientes.conta (numero, saldo, cliente_nome, cliente_cpf, cliente_email)" +
                 "VALUES (?, ?, ?, ?, ?)";
@@ -63,9 +63,12 @@ public class ContaDAO {
                 String cpf = rs.getString(4);
                 String email = rs.getString(5);
 
-                DadosCadastroCliente dadosCadastroCliente = new DadosCadastroCliente(nome, cpf, email);
+                DadosCadastroCliente dadosCadastroCliente =
+                        new DadosCadastroCliente(nome, cpf, email);
+
                 Cliente cliente = new Cliente(dadosCadastroCliente);
-                contas.add(new Conta(numero, cliente));
+
+                contas.add(new Conta(numero, cliente, saldo));
 
 
             }
@@ -101,7 +104,7 @@ public class ContaDAO {
 
                     DadosCadastroCliente dadosCadastroCliente = new DadosCadastroCliente(nome, cpf, email);
                     Cliente cliente = new Cliente(dadosCadastroCliente);
-                    conta = (new Conta(numero, cliente));
+                    conta = (new Conta(num, cliente, saldo));
 
                 }
 
