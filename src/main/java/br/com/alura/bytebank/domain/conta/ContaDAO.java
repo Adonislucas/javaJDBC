@@ -147,7 +147,30 @@ public class ContaDAO {
 
         }
 
+
+
+
+    public void remove(Integer numeroConta){
+               String sql= "DELETE FROM clientes.conta WHERE numero = ?";
+               PreparedStatement ps;
+
+               try {
+                     ps = conn.prepareStatement(sql);
+                     ps.setInt(1,numeroConta);
+
+
+                     ps.execute();
+                     conn.close();
+
+               }catch(SQLException e){
+                   throw new RuntimeException(e);
         }
+    }
+
+
+
+
+}
 
 
 
