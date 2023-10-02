@@ -71,8 +71,8 @@ public class ContaService {
         }
 
         Connection conn = connection.recuperarConexao();
-
-        alterar(conta, valor);
+        BigDecimal novoValor= conta.getSaldo().add(valor);
+        alterar(conta, novoValor);
     }
 
 
