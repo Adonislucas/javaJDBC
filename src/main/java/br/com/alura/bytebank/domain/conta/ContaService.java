@@ -76,6 +76,19 @@ public class ContaService {
     }
 
 
+    public void transferencia(Integer contaOrigem, Integer contaDestino, BigDecimal valor){
+
+
+        this.realizarSaque(contaOrigem, valor);
+        this.realizarDeposito(contaDestino, valor);
+
+
+
+
+
+    }
+
+
     public void encerrar(Integer numeroDaConta) {
         var conta = buscarContaPorNumero(numeroDaConta);
         if (conta.possuiSaldo()) {
