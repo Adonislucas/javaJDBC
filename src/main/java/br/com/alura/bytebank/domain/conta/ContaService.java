@@ -63,7 +63,8 @@ public class ContaService {
             throw new RegraDeNegocioException("Valor do deposito deve ser superior a zero!");
         }
 
-        conta.depositar(valor);
+        Connection conn = connection.recuperarConexao();
+        new ContaDAO(conn).fazerDeposito(conta.getNumero(), valor);
     }
 
     public void encerrar(Integer numeroDaConta) {
@@ -78,7 +79,10 @@ public class ContaService {
     private Conta buscarContaPorNumero(Integer numero) {
 
         Connection conn = connection.recuperarConexao();
-        return new ContaDAO(conn).buscarNumero(numero);
+        Conta conta =  new ContaDAO(conn).buscarNumero(numero);
+        if(conta != null) return conta;
+        else throw new RegraDeNegocioException("Não existe conta cadastrada com esse numero!");
+
 
 
     }

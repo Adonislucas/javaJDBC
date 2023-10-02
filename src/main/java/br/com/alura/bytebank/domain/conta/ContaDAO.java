@@ -118,6 +118,28 @@ public class ContaDAO {
 
 
 
+        public void fazerDeposito(Integer numeroDaConta, BigDecimal valor){
+
+        String sql = "UPDATE clientes.conta SET saldo = ? WHERE numero= ?";
+        try{
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setBigDecimal(1, valor);
+            ps.setInt(2, numeroDaConta);
+
+
+            ps.execute();
+            ps.close();
+            conn.close();
+
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+
+            }
+
+        }
+
+
 
 
 
