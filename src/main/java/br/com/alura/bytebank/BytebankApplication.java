@@ -14,7 +14,7 @@ public class BytebankApplication {
 
     public static void main(String[] args) {
         var opcao = exibirMenu();
-        while (opcao != 7) {
+        while (opcao != 8) {
             try {
                 switch (opcao) {
                     case 1:
@@ -34,6 +34,8 @@ public class BytebankApplication {
                         break;
                     case 6:
                         realizarDeposito();
+                    case 7:
+                        realizarTransferencia();
                         break;
                 }
             } catch (RegraDeNegocioException e) {
@@ -47,6 +49,8 @@ public class BytebankApplication {
         System.out.println("Finalizando a aplicação.");
     }
 
+
+
     private static int exibirMenu() {
         System.out.println("""
                 BYTEBANK - ESCOLHA UMA OPÇÃO:
@@ -56,7 +60,8 @@ public class BytebankApplication {
                 4 - Consultar saldo de uma conta
                 5 - Realizar saque em uma conta
                 6 - Realizar depósito em uma conta
-                7 - Sair
+                7 - Realizar transferencia
+                8 - Sair
                 """);
         return teclado.nextInt();
     }
@@ -134,6 +139,22 @@ public class BytebankApplication {
         service.realizarDeposito(numeroDaConta, valor);
 
         System.out.println("Depósito realizado com sucesso!");
+        System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");
+        teclado.next();
+    }
+    private static void realizarTransferencia() {
+        System.out.println("Digite o numero da sua conta:");
+        var primeiraConta = teclado.nextInt();
+
+        System.out.println("Digite o numero da conta de destino:");
+        var segundaConta =  teclado.nextInt();
+
+        System.out.println("Digite o valor a ser transferido");
+        var valorTransferencia = teclado.nextBigDecimal();
+
+        service.transferencia(primeiraConta, segundaConta, valorTransferencia);
+
+        System.out.println("Transferencia realizada com sucesso!");
         System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");
         teclado.next();
     }
